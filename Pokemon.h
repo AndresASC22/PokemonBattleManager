@@ -11,11 +11,20 @@ class Type {
     std::string typeImmunity;
 public:
     Type() { typeName = ""; typeWeakness = {}; typeEffective = {}; typeImmunity = "";}
-    Type(std::string &s, std::vector<std::string> &tw, std::vector<std::string> &te, std::string &ti) {
+    Type(const std::string &s, 
+         const std::vector<std::string> &tw, 
+         const std::vector<std::string> &te, 
+         const std::string &ti) {
         typeName = s;
         typeWeakness = tw;
         typeEffective = te;
         typeImmunity = ti;
+    }
+    Type(const Type &t) {
+        typeName = t.typeName;
+        typeWeakness = t.typeWeakness;
+        typeEffective = t.typeEffective;
+        typeImmunity = t.typeImmunity;
     }
     void setTypeName(std::string s) {
         typeName = s;
@@ -69,7 +78,9 @@ class Moves {
     std::string moveEffect; // e.g., "Burn", "Paralyze", etc.
 public:
     Moves() {name = ""; movePower = 0; moveAccuracy = 0; moveCategory = ""; moveEffect = ""; moveType = Type();}
-    Moves(std::string &n, int mp, int ma, std::string &mc, std::string &me, Type &mt) {
+    Moves(const std::string &n, int mp, int ma, 
+         const std::string &mc, const std::string &me, 
+         const Type &mt) {
         name = n;
         movePower = mp;
         moveAccuracy = ma;
@@ -88,8 +99,9 @@ class Pokemon {
     std::string name;
     int level;
     Type type[2];
-    enum Status { Healthy, Fainted, Paralyzed, Poisoned, Asleep } status;
     Moves moves[4];
+    enum Status { Healthy, Fainted, Paralyzed, Poisoned, Asleep } status;
+    int hp;
 public:
     Pokemon() {
         name = "";
@@ -99,30 +111,36 @@ public:
         status = Healthy;
         for (int i = 0; i < 4; ++i) {
             moves[i] = Moves();
-        }
+        } 
+        hp = 100;
     }
-    Pokemon(std::string n, int l, Type t1, Type t2, Status s, Moves m1, Moves m2, Moves m3, Moves m4) 
-        : name(n), level(l), status(s) {
-            type[0] = t1;
-            type[1] = t2;
-            moves[0] = m1;
-            moves[1] = m2;
-            moves[2] = m3;
-            moves[3] = m4;
+    Pokemon(const std::string &n, int l, const Type &t1, const Type &t2, int h,
+        int s, const Moves &m1, const Moves &m2, const Moves &m3, const Moves &m4) {
+        type[0] = t1;
+        type[1] = t2;
+        moves[0] = m1;
+        moves[1] = m2;
+        moves[2] = m3;
+        moves[3] = m4;
+        name = n;
+        level = l;
+        hp = h;
+        status = static_cast<Status>(s);
     }
 
     void printPokemon() {
-        std::cout << "Name: " << name << "\nLevel: " << level << "\nType: "; type[0].printType();
+        std::cout << "Name: " << name << "\nLevel: " 
+        << level << "\nType: "; type[0].printType(); std::cout << "HP: " << hp << std::endl;
         if (!type[1].isEmpty()) { 
             std::cout << "/"; type[1].printType();
             std::cout << "\nStatus: ";
         }
         switch (status) {
-            case Healthy: std::cout << "Healthy"; break;
-            case Fainted: std::cout << "Fainted"; break;
-            case Paralyzed: std::cout << "Paralyzed"; break;
-            case Poisoned: std::cout << "Poisoned"; break;
-            case Asleep: std::cout << "Asleep"; break;
+            case Healthy: std::cout << "Healthy\n"; break;
+            case Fainted: std::cout << "Fainted\n"; break;
+            case Paralyzed: std::cout << "Paralyzed\n"; break;
+            case Poisoned: std::cout << "Poisoned\n"; break;
+            case Asleep: std::cout << "Asleep\n"; break;
         }
         for (int i = 0; i < 4; ++i) {
             moves[i].printMove(i + 1);
