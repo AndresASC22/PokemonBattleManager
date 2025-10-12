@@ -15,10 +15,10 @@ public:
          const std::vector<std::string> &tw, 
          const std::vector<std::string> &te, 
          const std::string &ti) {
-        typeName = s;
-        typeWeakness = tw;
-        typeEffective = te;
-        typeImmunity = ti;
+            typeName = s;
+            typeWeakness = tw;
+            typeEffective = te;
+            typeImmunity = ti;
     }
     Type(const Type &t) {
         typeName = t.typeName;
@@ -93,6 +93,9 @@ public:
                   << "\nCategory: " << moveCategory << "\nEffect: " << moveEffect << std::endl;
         moveType.printType();
     }
+    bool const isMoveEmpty() {
+        return name == "";
+    }
 };
 
 class Pokemon {
@@ -130,11 +133,12 @@ public:
 
     void printPokemon() {
         std::cout << "Name: " << name << "\nLevel: " 
-        << level << "\nType: "; type[0].printType(); std::cout << "HP: " << hp << std::endl;
+        << level << std::endl; 
+        type[0].printType();
         if (!type[1].isEmpty()) { 
-            std::cout << "/"; type[1].printType();
-            std::cout << "\nStatus: ";
-        }
+            type[1].printType();
+        } 
+        std::cout << "\nStatus: ";
         switch (status) {
             case Healthy: std::cout << "Healthy\n"; break;
             case Fainted: std::cout << "Fainted\n"; break;
@@ -142,8 +146,11 @@ public:
             case Poisoned: std::cout << "Poisoned\n"; break;
             case Asleep: std::cout << "Asleep\n"; break;
         }
+        std::cout << "HP: " << hp << std::endl;
         for (int i = 0; i < 4; ++i) {
-            moves[i].printMove(i + 1);
+            if (!moves[i].isMoveEmpty()){
+                moves[i].printMove(i + 1);
+            }
         }
     }
 };
