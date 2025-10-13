@@ -69,7 +69,7 @@ public:
     }
 };
 
-class Moves {
+class Move { 
     std::string name;
     int movePower;
     int moveAccuracy;
@@ -77,8 +77,8 @@ class Moves {
     std::string moveCategory; // Physical, Special, Status
     std::string moveEffect; // e.g., "Burn", "Paralyze", etc.
 public:
-    Moves() {name = ""; movePower = 0; moveAccuracy = 0; moveCategory = ""; moveEffect = ""; moveType = Type();}
-    Moves(const std::string &n, int mp, int ma, 
+    Move() {name = ""; movePower = 0; moveAccuracy = 0; moveCategory = ""; moveEffect = ""; moveType = Type();}
+    Move(const std::string &n, int mp, int ma, 
          const std::string &mc, const std::string &me, 
          const Type &mt) {
         name = n;
@@ -98,11 +98,11 @@ public:
     }
 };
 
-class Pokemon {
+class Pokemon : public Move, public Type {
     std::string name;
     int level;
     Type type[2];
-    Moves moves[4];
+    Move moves[4];
     enum Status { Healthy, Fainted, Paralyzed, Poisoned, Asleep } status;
     int hp;
 public:
@@ -113,12 +113,12 @@ public:
         type[1] = Type();
         status = Healthy;
         for (int i = 0; i < 4; ++i) {
-            moves[i] = Moves();
+            moves[i] = Move();
         } 
         hp = 100;
     }
     Pokemon(const std::string &n, int l, const Type &t1, const Type &t2, int h,
-        int s, const Moves &m1, const Moves &m2, const Moves &m3, const Moves &m4) {
+        int s, const Move &m1, const Move &m2, const Move &m3, const Move &m4) {
         type[0] = t1;
         type[1] = t2;
         moves[0] = m1;
