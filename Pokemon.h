@@ -76,21 +76,23 @@ class Move {
     Type moveType;
     std::string moveCategory; // Physical, Special, Status
     std::string moveEffect; // e.g., "Burn", "Paralyze", etc.
+    std::string description;
 public:
-    Move() {name = ""; movePower = 0; moveAccuracy = 0; moveCategory = ""; moveEffect = ""; moveType = Type();}
+    Move() {name = ""; movePower = 0; moveAccuracy = 0; moveCategory = ""; moveEffect = ""; moveType = Type(); description = "";}
     Move(const std::string &n, int mp, int ma, 
          const std::string &mc, const std::string &me, 
-         const Type &mt) {
+         const Type &mt, const std::string &desc) {
         name = n;
         movePower = mp;
         moveAccuracy = ma;
         moveCategory = mc;
         moveEffect = me;
         moveType = mt;
+        description = desc;
     }
     void printMove(int i) {
         std::cout << "Move " << i << ": " << name << "\nPower: " << movePower << "\nAccuracy: " << moveAccuracy 
-                  << "\nCategory: " << moveCategory << "\nEffect: " << moveEffect << std::endl;
+                  << "\nCategory: " << moveCategory << "\nEffect: " << moveEffect << "\nDescription: " << description << std::endl;
         moveType.printType();
     }
     bool const isMoveEmpty() {
@@ -150,7 +152,7 @@ public:
         for (int i = 0; i < 4; ++i) {
             if (!moves[i].isMoveEmpty()){
                 moves[i].printMove(i + 1);
-            }
+            } std::cout << std::endl;
         }
     }
 };
