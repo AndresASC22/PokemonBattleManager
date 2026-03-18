@@ -70,7 +70,7 @@ public:
 };
 
 class Move { 
-    std::string name;
+    std::string moveName;
     int movePower;
     int moveAccuracy;
     Type moveType;
@@ -79,11 +79,11 @@ class Move {
     std::string description;
     int powerPoints;
 public:
-    Move() {name = ""; movePower = 0; moveAccuracy = 0; moveCategory = ""; moveEffect = ""; moveType = Type(); description = ""; powerPoints = 0;}
+    Move() {moveName = ""; movePower = 0; moveAccuracy = 0; moveCategory = ""; moveEffect = ""; moveType = Type(); description = ""; powerPoints = 0;}
     Move(const std::string &n, int mp, int ma, 
          const std::string &mc, const std::string &me, 
          const Type &mt, const std::string &desc, int pp) {
-        name = n;
+        moveName = n;
         movePower = mp;
         moveAccuracy = ma;
         moveCategory = mc;
@@ -93,13 +93,13 @@ public:
         powerPoints = pp;
     }
     void printMove(int i) {
-        std::cout << "Move " << i << ": " << name << "\nPower: " << movePower << "\nAccuracy: " << moveAccuracy 
+        std::cout << "Move " << i << ": " << moveName << "\nPower: " << movePower << "\nAccuracy: " << moveAccuracy 
                   << "\nCategory: " << moveCategory << "\nEffect: " << moveEffect << "\nDescription: " << description 
                   << "\nPower Points: " << powerPoints << std::endl;
         moveType.printType();
     }
     bool const isMoveEmpty() {
-        return name == "";
+        return moveName == "";
     }
 };
 
