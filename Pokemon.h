@@ -135,7 +135,18 @@ public:
         hp = h;
         status = static_cast<Status>(s);
     }
-
+    Pokemon(const Pokemon &p) {
+        name = p.name;
+        level = p.level;
+        type[0] = p.type[0];
+        type[1] = p.type[1];
+        moves[0] = p.moves[0];
+        moves[1] = p.moves[1];
+        moves[2] = p.moves[2];
+        moves[3] = p.moves[3];
+        hp = p.hp;
+        status = p.status;
+    }
     void printPokemon() {
         std::cout << "Name: " << name << "\nLevel: " 
         << level << std::endl; 

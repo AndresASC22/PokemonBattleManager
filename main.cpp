@@ -15,5 +15,8 @@ int main() {
     Pokemon blastoise("Blastoise", 36, waterType, Type(), 155, 0, hydroPumpMove, surfMove, biteMove, iceBeamMove);
     blastoise.printPokemon();
 
+    Pokemon charizard2(charizard);
+    charizard2.printPokemon();
+    
     return 0;
 }

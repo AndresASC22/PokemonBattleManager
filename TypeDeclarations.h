@@ -17,6 +17,6 @@ Type ghostType("Ghost", {"Ghost", "Dark"}, {"Psychic", "Ghost"}, "Normal");
 Type steelType("Steel", {"Fire", "Fighting", "Ground"}, {"Ice", "Rock", "Fairy"}, "Poison");
 Type iceType("Ice", {"Fire", "Fighting", "Rock", "Steel"}, {"Grass", "Ground", "Flying", "Dragon"}, "");
 Type dragonType("Dragon", {"Ice", "Dragon", "Fairy"}, {"Dragon"}, "");
-Type darkType("Dark", {"Fighting", "Bug", "Fairy"}, {"Psych ic", "Ghost"}, "");
+Type darkType("Dark", {"Fighting", "Bug", "Fairy"}, {"Psychic", "Ghost"}, "");
 Type psychicType("Psychic", {"Bug", "Ghost", "Dark"}, {"Fighting", "Poison"}, "");
 Type fairyType("Fairy", {"Poison", "Steel"}, {"Fighting", "Dragon", "Dark"}, "Dragon");
