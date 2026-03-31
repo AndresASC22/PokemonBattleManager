@@ -44,27 +44,33 @@ public:
     void setImmunity(std::string &s) {
         typeImmunity = s;
     }
-    void const printType() {
+
+    std::string getTypeName() const { return typeName; }
+    std::vector<std::string> getWeakness() const { return typeWeakness; }
+    std::vector<std::string> getEffective() const { return typeEffective; }
+    std::string getImmunity() const { return typeImmunity; }
+
+    void printType() const {
         std::cout << "Type: " << typeName << std::endl;
     }
-    void const printWeakness() {
+    void printWeakness() const {
         for (int i = 0; i < typeWeakness.size(); i++) {
             std::cout << "Weak against: " << typeWeakness.at(i) << " ";
         } std::cout << std::endl;
     }
-    void const printEffective() {
+    void printEffective() const {
         for (int i = 0; i < typeEffective.size(); i++) {
             std::cout << "Effect against: " << typeEffective.at(i) << " ";
         } std::cout << std::endl;
     }
-    void const printImmunity() {
+    void printImmunity() const {
         if(typeImmunity != "") {
             std::cout << "Immunity is: " << typeImmunity << std::endl;
         } else {
             std::cout << "No type immunity" << std::endl;
         }
     }
-    bool const isEmpty() {
+    bool isEmpty() const {
         return typeName == "";
     }
 };
@@ -92,18 +98,40 @@ public:
         description = desc;
         powerPoints = pp;
     }
-    void printMove(int i) {
+
+    std::string getMoveName() const { return moveName; }
+    int getMovePower() const { return movePower; }
+    int getMoveAccuracy() const { return moveAccuracy; }
+    Type getMoveType() const { return moveType; }
+    std::string getMoveCategory() const { return moveCategory; }
+    std::string getMoveEffect() const { return moveEffect; }
+    std::string getDescription() const { return description; }
+    int getPowerPoints() const { return powerPoints; }
+
+    void setMoveName(const std::string &n) { moveName = n; }
+    void setMovePower(int mp) { movePower = mp; }
+    void setMoveAccuracy(int ma) { moveAccuracy = ma; }
+    void setMoveType(const Type &mt) { moveType = mt; }
+    void setMoveCategory(const std::string &mc) { moveCategory = mc; }
+    void setMoveEffect(const std::string &me) { moveEffect = me; }
+    void setDescription(const std::string &desc) { description = desc; }
+    void setPowerPoints(int pp) { powerPoints = pp; }
+    
+    void usePP() { if(powerPoints > 0) powerPoints--; }
+    void restorePP(int amount) { powerPoints += amount; }
+    
+    void printMove(int i) const {
         std::cout << "Move " << i << ": " << moveName << "\nPower: " << movePower << "\nAccuracy: " << moveAccuracy 
                   << "\nCategory: " << moveCategory << "\nEffect: " << moveEffect << "\nDescription: " << description 
                   << "\nPower Points: " << powerPoints << std::endl;
         moveType.printType();
     }
-    bool const isMoveEmpty() {
+    bool isMoveEmpty() const {
         return moveName == "";
     }
 };
 
-class Pokemon : public Move, public Type {
+class Pokemon {
     std::string name;
     int level;
     Type type[2];
@@ -147,7 +175,49 @@ public:
         hp = p.hp;
         status = p.status;
     }
-    void printPokemon() {
+
+    std::string getName() const { return name; }
+    int getLevel() const { return level; }
+    Type getType(int index) const { 
+        if(index == 0 || index == 1) return type[index];
+        return Type(); // return empty type if index out of bounds
+    }
+    Move getMove(int index) const {
+        if(index >= 0 && index < 4) return moves[index];
+        return Move();
+    }
+    int getHP() const { return hp; }
+    Status getStatus() const { return status; }
+    bool isFainted() const { return status == Fainted || hp <= 0; }
+
+    void setName(const std::string &n) { name = n; }
+    void setLevel(int l) { level = l; }
+    void setType(int index, const Type &t) { if(index == 0 || index == 1) type[index] = t; }
+    void setMove(int index, const Move &m) { if(index >= 0 && index < 4) moves[index] = m; }
+    void setHP(int newHP) { hp = newHP; if(hp <= 0) status = Fainted; }
+    void setStatus(Status s) { status = s; }
+    
+    void takeDamage(int damage) { 
+        hp -= damage; 
+        if(hp <= 0) {
+            hp = 0;
+            status = Fainted;
+        }
+    }
+    void heal(int amount) { 
+        hp += amount; 
+        if(status == Fainted && hp > 0) status = Healthy;
+    }
+    void restoreAllPP() {
+        for(int i = 0; i < 4; i++) {
+            // Ideally you'd restore to max PP, but we don't store max PP.
+            // For simplicity, set to 30 as a default max.
+            // You may want to store maxPP separately.
+            moves[i].setPowerPoints(30);
+        }
+    }
+    
+    void printPokemon() const {
         std::cout << "Name: " << name << "\nLevel: " 
         << level << std::endl; 
         type[0].printType();
