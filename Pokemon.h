@@ -136,9 +136,9 @@ class Pokemon {
     int level;
     Type type[2];
     Move moves[4];
-    enum Status { Healthy, Fainted, Paralyzed, Poisoned, Asleep } status;
     int hp;
 public:
+    enum Status { Healthy, Fainted, Paralyzed, Poisoned, Asleep } status;
     Pokemon() {
         name = "";
         level = 1;
