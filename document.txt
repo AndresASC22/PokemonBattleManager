@@ -1,0 +1,61 @@
+3/31/2026
+Summary of Changes to Pokemon.h
+1. Fixed Inheritance (Major)
+
+    Removed class Pokemon : public Move, public Type
+
+    Changed to class Pokemon (no inheritance)
+
+    Pokemon now correctly has Type type[2] and Move moves[4] via composition
+
+2. Added Getters for All Private Members
+
+    Type class: getTypeName(), getWeakness(), getEffective(), getImmunity()
+
+    Move class: getMoveName(), getMovePower(), getMoveAccuracy(), getMoveType(), getMoveCategory(), getMoveEffect(), getDescription(), getPowerPoints()
+
+    Pokemon class: getName(), getLevel(), getType(index), getMove(index), getHP(), getStatus(), isFainted()
+
+3. Added Setters and Modifier Methods
+
+    Move: setMoveName(), setMovePower(), setMoveAccuracy(), setMoveType(), setMoveCategory(), setMoveEffect(), setDescription(), setPowerPoints(), usePP(), restorePP()
+
+    Pokemon: setName(), setLevel(), setType(), setMove(), setHP(), setStatus(), takeDamage(), heal(), restoreAllPP()
+
+4. Fixed Const Correctness
+
+    Changed void const printX() → void printX() const for all print methods
+
+    Changed bool const isEmpty() → bool isEmpty() const
+
+    Made getter methods const where appropriate
+
+5. Improved Helper Methods
+
+    Pokemon::takeDamage() now sets HP to 0 and status to Fainted when HP drops ≤ 0
+
+    Pokemon::heal() revives from Fainted if HP becomes positive
+
+    Pokemon::isFainted() checks both status and HP
+
+    Move::usePP() decrements PP if positive
+
+6. No Breaking Changes to Public Interface
+
+    All existing constructors and print methods remain compatible
+
+    TypeDeclaration.h unaffected
+
+feat: add Team class and refactor Pokemon class for battle system
+
+Add Team class (Team.h):
+- Manage 1-6 Pokémon with active Pokémon tracking
+- Enforce team size limits via addPokemon()
+- Provide safe switching (switchTo, handleFaint)
+- Check defeat state (isDefeated, getNextAvailableIndex)
+- Include healAll() for post-battle recovery
+
+Refactor Pokemon.h:
+- Make Status enum public (accessible as Pokemon::Healthy, etc.)
+
+These changes prepare the codebase for a BattleManager implementation.
